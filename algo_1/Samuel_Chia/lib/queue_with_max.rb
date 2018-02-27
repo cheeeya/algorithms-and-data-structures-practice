@@ -18,8 +18,12 @@ class QueueWithMax
 
   def enqueue(val)
     @store.push(val)
-    while @max_store.length > 0 && @max_store[0] < val
-      @max_store.shift
+    if @max_store.length > 0 && @max_store[0] < val
+      @max_store = RingBuffer.new
+    else
+      while @max_store.length > 0 && @max_store[@max_store.length - 1] < val
+        @max_store.pop
+      end
     end
     @max_store.push(val)
   end
