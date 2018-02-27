@@ -13,48 +13,30 @@ class QueueWithMax
 
   def initialize
     @store = RingBuffer.new
-    @max_store = [] #probably want to use a max_heap
+    @max_store = RingBuffer.new
   end
 
   def enqueue(val)
     @store.push(val)
-    if @max_store.empty? || val >= @max_store.last
-      @max_store.push(val)
-    elsif val <= @max_store.first
-      @max_store.unshift(val)
-    else
-      @max_store = insert(@max_store, val)
+    while @max_store.length > 0 && @max_store[0] < val
+      @max_store.shift
     end
+    @max_store.push(val)
   end
 
   def dequeue
     val = @store.shift
-    @max_store.delete(val) #O(n) complexity lol
+    if @max_store[0] == val
+      @max_store.shift
+    end
   end
 
   def max
-    @max_store.last
+    @max_store[0]
   end
 
   def length
     @store.length
   end
-
-  def insert(arr, val)
-    mid = arr.length / 2
-    p arr
-    if (arr.length < 2)
-      return arr.push(val).sort
-    end
-    if val == arr[mid]
-      result = arr[0..mid] + arr[mid..-1]  #is concating O(n)??
-    elsif val > arr[mid]
-      result = arr[0..mid] + insert(arr[mid+1..-1], val)
-    else
-      result = insert(arr[0...mid], val) + arr[mid..-1]
-    end
-    result
-  end
-
 
 end
