@@ -91,7 +91,7 @@ class ResizingIntSet
   def remove(num)
     # raise "#{num} does not exist in set" if !include?(num)
     deleted = self[num].delete(num)
-    @count -= 1 if !deleted.nil?
+    @count -= 1 if deleted
     deleted
   end
 
@@ -118,10 +118,11 @@ class ResizingIntSet
 
   # O(n) to resize, must grab every element and push into new array
   def resize!
-    new_store = Array.new(num_buckets * 2) { Array.new }
+    new_size = num_buckets * 2
+    new_store = Array.new(new_size) { Array.new }
     @store.each do |arr|
       arr.each do |num|
-        new_store[num % (num_buckets * 2)] << num
+        new_store[num % (new_size)] << num
       end
     end
     @store = new_store
