@@ -10,31 +10,26 @@ class HashSet
 
   def insert(key)
     raise "#{key} already exists in set" if include?(key)
-    inspect
     @count += 1
     resize! if (@count > num_buckets)
-    self[key.hash] << key
+    self[key] << key
   end
 
   def include?(key)
-    self[key.hash].include?(key)
+    self[key].include?(key)
   end
 
   def remove(key)
-    deleted = self[key.hash].delete(key)
+    deleted = self[key].delete(key)
     @count -= 1 if deleted
     deleted
   end
 
-  def inspect
-    p @store
-  end
-
   private
 
-  def [](num)
-    # optional but useful; return the bucket corresponding to `num`
-    @store[num % num_buckets]
+  def [](key)
+    # optional but useful; return the bucket corresponding to `key`
+    @store[key.hash % num_buckets]
   end
 
   def num_buckets
