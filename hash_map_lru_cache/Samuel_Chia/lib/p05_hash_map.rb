@@ -18,7 +18,8 @@ class HashMap
 
   # might not need to check for inclusion
   # if modify update method to return a value on successful update or nil
-  # O(1) for appending, O(1) for updating if each bucket has 1 item
+  # average case O(1) for appending, O(n) if resize is necessary
+  # O(1) for updating if each bucket has 1 item
   def set(key, val)
     return bucket(key).update(key, val) if include?(key)
     @count += 1
