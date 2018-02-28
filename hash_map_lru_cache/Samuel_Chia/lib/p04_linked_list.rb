@@ -82,7 +82,7 @@ class LinkedList
   end
 
   def remove(key)
-    each { |node| return node.remove if node.key == key}
+    each { |node| return node.remove.val if node.key == key}
     nil
   end
 
