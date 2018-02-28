@@ -15,11 +15,21 @@ class Node
   def remove
     # optional but useful, connects previous node to next node
     # and removes self from list.
+    @prev.next = @next
+    @next.prev = @prev
+    @prev = nil
+    @next = nil
+    self.val
   end
 end
 
 class LinkedList
+  include Enumerable
   def initialize
+    @head = Node.new
+    @tail = Node.new
+    @head.next = @tail
+    @tail.prev = @head
   end
 
   def [](i)
@@ -28,34 +38,54 @@ class LinkedList
   end
 
   def first
+    @head.next
   end
 
   def last
+    @tail.prev
   end
 
   def empty?
+    @head.next == @tail
   end
 
   def get(key)
+    each { |node| return node.val if node.key == key }
+    nil
   end
 
   def include?(key)
+    each { |node| return true if node.key == key }
+    false
   end
 
   def append(key, val)
+    new_node = Node.new(key, val)
+    last.next = new_node
+    new_node.prev = last
+    new_node.next = @tail
+    @tail.prev = new_node
   end
 
   def update(key, val)
+    each { |node| node.val = val if node.key == key }
   end
 
   def remove(key)
+    each { |node| return node.remove if node.key == key}
+    nil
   end
 
   def each
+    node = first
+    until node == @tail
+      yield node
+      node = node.next
+    end
   end
 
   # uncomment when you have `each` working and `Enumerable` included
-  # def to_s
-  #   inject([]) { |acc, node| acc << "[#{node.key}, #{node.val}]" }.join(", ")
-  # end
+  def to_s
+    inject([]) { |acc, node| acc << "[#{node.key}, #{node.val}]" }.join(", ")
+  end
 end
