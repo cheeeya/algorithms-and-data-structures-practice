@@ -65,10 +65,12 @@ class LinkedList
     new_node.prev = last
     new_node.next = @tail
     @tail.prev = new_node
+    nil
   end
 
   def update(key, val)
     each { |node| node.val = val if node.key == key }
+    nil
   end
 
   def remove(key)
