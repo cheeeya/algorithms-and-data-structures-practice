@@ -7,9 +7,9 @@ class Array
     array_hash = 685495564
     self.each_with_index do |el, idx|
       if el.is_a?(Integer)
-        array_hash += (el.to_s(2).to_i).hash * idx.hash
+        array_hash += (el.to_s(2).to_i).hash * (idx + 2)
       elsif el.is_a?(String)
-        array_hash += el.unpack("B*")[0].to_i.hash * idx.hash
+        array_hash += el.unpack("B*")[0].to_i.hash * (idx + 2)
       end
     end
     array_hash
@@ -18,7 +18,7 @@ end
 
 class String
   def hash
-    [self].hash - 685495564
+    ([self].hash - 685495564) / 2
   end
 end
 
