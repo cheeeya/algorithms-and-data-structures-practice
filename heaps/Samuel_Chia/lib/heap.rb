@@ -2,7 +2,11 @@ class BinaryMinHeap
   attr_reader :store, :prc
 
   def initialize(&prc)
-    @prc ||= Proc.new { |a, b| a <=> b }
+    if (prc)
+      @prc = prc
+    else
+      @prc = Proc.new { |a, b| a <=> b }
+    end
     @store = Array.new
   end
 
