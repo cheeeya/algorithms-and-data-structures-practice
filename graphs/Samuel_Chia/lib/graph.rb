@@ -5,6 +5,10 @@ class Vertex
     @in_edges = Array.new
     @out_edges = Array.new
   end
+
+  def to_s
+    value
+  end
 end
 
 class Edge
@@ -22,5 +26,9 @@ class Edge
     @to_vertex.in_edges.delete(self)
     @from_vertex = nil
     @to_vertex = nil
+  end
+
+  def to_s
+    "#{from_vertex.to_s} -> #{to_vertex.to_s}"
   end
 end
