@@ -24,6 +24,7 @@ def install_order(arr)
     h[i] = [[],[]] if h[i].empty?
     q.enq(i) if h[i][0].empty?
   end
+
   until q.empty?
     current = q.deq
     order << current
@@ -32,7 +33,7 @@ def install_order(arr)
       dependent = end_v.first
       from_v = h[dependent][0]
       from_v.delete(current)
-      end_v.delete(dependent)
+      end_v.shift
       q.enq(dependent) if from_v.empty?
     end
   end
